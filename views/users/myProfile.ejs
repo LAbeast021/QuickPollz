@@ -1,5 +1,10 @@
 <%- include('../partials/header') %>
 <style>
+  .myProfile{
+    width: 70vw;
+    /* height: 100vh; */
+    /* border: 1px solid white; */
+  }
   .wrapper {
     width: 100%;
     padding: 0 2rem;
@@ -28,84 +33,18 @@
     margin-top: 2rem;
     filter: grayscale(100%);
   }
-  .item .polaroid:before {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    transition: all 0.35s;
-  }
-  .item:nth-of-type(4n+1) {
-    transform: scale(0.8, 0.8) rotate(5deg);
-    transition: all 0.35s;
-  }
-  .item:nth-of-type(4n+1) .polaroid:before {
-    transform: rotate(6deg);
-    height: 20%;
-    width: 47%;
-    bottom: 30px;
-    right: 12px;
-    box-shadow: 0 2.1rem 2rem rgba(0,0,0,0.4);
-  }
-  .item:nth-of-type(4n+2) {
-    transform: scale(0.8, 0.8) rotate(-5deg);
-    transition: all 0.35s;
-  }
-  .item:nth-of-type(4n+2) .polaroid:before {
-    transform: rotate(-6deg);
-    height: 20%;
-    width: 47%;
-    bottom: 30px;
-    left: 12px;
-    box-shadow: 0 2.1rem 2rem rgba(0,0,0,0.4);
-  }
-  .item:nth-of-type(4n+4) {
-    transform: scale(0.8, 0.8) rotate(3deg);
-    transition: all 0.35s;
-  }
-  .item:nth-of-type(4n+4) .polaroid:before {
-    transform: rotate(4deg);
-    height: 20%;
-    width: 47%;
-    bottom: 30px;
-    right: 12px;
-    box-shadow: 0 2.1rem 2rem rgba(0,0,0,0.3);
-  }
-  .item:nth-of-type(4n+3) {
-    transform: scale(0.8, 0.8) rotate(-3deg);
-    transition: all 0.35s;
-  }
-  .item:nth-of-type(4n+3) .polaroid:before {
-    transform: rotate(-4deg);
-    height: 20%;
-    width: 47%;
-    bottom: 30px;
-    left: 12px;
-    box-shadow: 0 2.1rem 2rem rgba(0,0,0,0.3);
-  }
-  .item:hover {
-    filter: none;
-    transform: scale(1, 1) rotate(0deg) !important;
-    transition: all 0.35s;
-  }
-  .item:hover .polaroid:before {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    transform: rotate(0deg);
-    height: 90%;
-    width: 90%;
-    bottom: 0%;
-    right: 5%;
-    box-shadow: 0 1rem 3rem rgba(0,0,0,0.2);
-    transition: all 0.35s;
-  }
+
     #profile_header{
+      /* border: 2px dotted darkblue; */
         width: 100%;
-        height: 25%;
+        /* height: 25%; */
         /* border: 5px dotted pink; */
-        margin-top: 50px;
+        margin-top: 40px;
         display: flex;
+        /* flex-direction: column; */
         justify-content: space-around;
+        align-items: center;
+        border-bottom: .5px solid grey;
         /* border: 3px dotted wheat; */
     }
     #profile_avatar {
@@ -115,20 +54,37 @@
         border-radius: 50%;
         width: 150px;
         height: 150px;
-        border: 3px solid rgb(118, 112, 121);
+        border: 2px solid rgb(195, 195, 196);
         /* border: 3px solid rgb(200, 141, 200); */
     }
     #profile_text_holder{
-        width: 40%;
+        width: 120%;
+        margin: 5%;
+
+    }
+    #allPostsHolder{
+      /* border: 3PX dotted hotpink; */
+      margin-top: 3%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
     }
 </style>
-<div id="profile_header"> 
-    <div id="profile_text_holder">
-        <h1> Welcome <%= loggedInUser.firstName%></h1>
+<div class="myProfile">
+
+  <div id="profile_header"> 
+
+    <div style="width: 30%;">
+      <div id="profile_avatar">
+          <img src="<%= loggedInUser.avatar %>" alt="">
+      </div>
+
+      <div id="profile_text_holder">
+          <h1> Welcome <%= loggedInUser.firstName%></h1>
+      </div>
     </div>
-    <div id="profile_avatar">
-        <img src="<%= loggedInUser.avatar %>" alt="">
-    </div>
+
 </div>
 
 <div id="allPostsHolder">
@@ -143,8 +99,9 @@
     <% });%>  
   </div>
   <% } else {%>
-    <h1> YOU HAVE NO POSTS </h1>
-    <a href="/posts/new"> ADD A POST NOW </a>
+    <h1> YOU HAVE NO POLLZ YET :( </h1>
+    <a style="font-size: larger;" href="/posts/new"> Create a Poll now ? ;) </a>
   <% }%>
 
+</div>
 <%- include('../partials/footer') %>
