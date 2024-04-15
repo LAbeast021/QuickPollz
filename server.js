@@ -47,7 +47,7 @@ app.use(passport.session());
 // /////////////////// using routers //////////////////////////////////
 
 app.use('/', indexRouter);
-app.use('/homepage',homeRouter);
+app.use('/home',homeRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/search', searchRouter);
