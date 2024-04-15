@@ -11,7 +11,7 @@ const { post } = require('request');
 //     return await User.findById(id);
 // }
 router.get('/profile/:id' , function(req,res,next) {
-    Post.find({userId:req.params.id}).then((posts) => {
+    Post.find({createdBy:req.params.id}).then((posts) => {
         var userPosts = posts ;
             res.render('./users/myProfile.ejs' , {
                 loggedInUser : req.user, 
