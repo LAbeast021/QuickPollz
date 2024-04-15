@@ -8,26 +8,21 @@ const post = require('../models/post');
 
 
 
-router.get('/', (req, res) => {
+router.get('/',async (req, res) => {
         // // let posts = await Post.find({ $query: {}, $orderby: { createdAt : -1 } })
-        Post.find({}).then((posts) => {
-            res.render('home' , {
-                loggedInUser : req.user,
-                posts:posts.reverse(),
-            })
-        })
-        // // Post.find({}).sort({'created_at': -1})(function(err,posts){
-        //   if (posts) {
-        //       res.render('home',{
-        //         posts:posts.reverse(),
-        //         loggedInUser: req.user,
-        //         title: 'Home'
-        //     })
-        //   }  
-        //   else {
-        //     res.redirect('https://www.google.com/')
-        //   }
-        // })
+        try {
+            // Fetch all posts excluding those created by the logged-in user
+            const posts = await Post.find({ createdBy: { $ne: req.user._id } }).exec();
+            console.log(posts);
+    
+            res.render('./home.ejs', { // Assuming your homepage template is named 'home.ejs'
+                posts: posts,
+                user: req.user
+            });
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+            res.status(500).send("Error fetching posts");
+        }
     });
 
 // function isLoggedIn(req, res,next){

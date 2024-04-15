@@ -47,7 +47,7 @@ app.use(passport.session());
 // /////////////////// using routers //////////////////////////////////
 
 app.use('/', indexRouter);
-app.use('/home',homeRouter);
+app.use('/homepage',homeRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/search', searchRouter);
@@ -68,6 +68,11 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Internal Server Error');
 });
 
 module.exports = app;

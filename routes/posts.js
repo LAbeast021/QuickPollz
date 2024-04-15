@@ -37,7 +37,7 @@ router.post('/upload' , async function(req,res,next) {
         });
     
         await newPoll.save(); // Save the poll to the database
-        res.redirect(`/users/profile/${req.user._id}`); // Redirect to the polls page or wherever appropriate
+        res.redirect(`/users/profile/${req.user.id}`); // Redirect to the polls page or wherever appropriate
       } catch (error) {
         res.status(500).send(error.toString());
       }
