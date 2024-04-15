@@ -1,37 +1,34 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+const User = require('./user');
 
-var commentSchema = new Schema ({
-    comment:String,
-    visitorId: String,
-    visitorAvatar: String,
-    visitorName: String
-},{
-    timestamps:true
-})
-// var ratingSchema = new Schema ({
-//     rating:Number,
-//     visitorId: String,
-//     visitorAvatar: String,
-//     visitorName: String
-// },{
-//     timestamps:true
-// })
-
-var postSchema = new Schema({
-    image: String,
-    // rating: Number,
-    // ratinArray: [ratingSchema],
-    likes:[],
-    caption: String,
-    userId: String,
-    displayName: String,
-    avatar: String,
-    comments:[commentSchema]
-
-},{
-    timestamps:true
-})
+const pollSchema = new Schema({
+    question: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+      },
+    options: [{
+      optionText: {
+        type: String,
+        required: true,
+        trim: true
+      },
+      votes: {
+        type: Number,
+        default: 0
+      }
+    }],
+    voters: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }]
+  }, { timestamps: true });
 
 
-module.exports = mongoose.model('Post',postSchema);
+module.exports = mongoose.model('Post',pollSchema);
