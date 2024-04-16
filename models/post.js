@@ -22,12 +22,12 @@ const pollSchema = new Schema({
       votes: {
         type: Number,
         default: 0
-      }
+      } ,
+      voters: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      }]
     }],
-    voters: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    }]
   }, { timestamps: true });
 
 

@@ -43,6 +43,10 @@ router.post('/upload' , async function(req,res,next) {
       }
 })
 
+router.post("/vote/:post._id/:option._id" , async  (req,res,next) => {
+  
+})
+
 
 module.exports = router;
 

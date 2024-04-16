@@ -1,5 +1,36 @@
 <%- include('./partials/header') %>
+<style>
+    h2 {
+        color: #000000;
+    }
+</style>
+<div class="container mt-4">
+    <h1>Welcome, <%= loggedInUser.firstName %>!</h1>
+    <div class="polls-container">
+        <% if (posts.length > 0) { %>
+            <% posts.forEach(function(post) { %>
+                <div class="card my-3">
+                    <div class="card-header">
+                        <h2><%= post.question %></h2>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <% post.options.forEach(function(option) { %>
+                            <li class="list-group-item">
+                                <form action="posts/vote/<%= post._id %>/<%= option._id %>" method="POST">
+                                    <%= option.optionText %>
+                                    <button type="submit" class="btn btn-primary btn-sm float-right">Vote</button>
+                                </form>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div style="background-color: #696767;color: aliceblue;" class="alert alert-info">You have no polls to participate in. Why not create one?</div>
+            <a style="color: #000000; background-color: aliceblue;" class="btn btn-success" href="/posts/new">Create a Poll</a>
+        <% } %>
+    </div>
+</div>
 
-<h1>Hello There </h1>
 
 <%- include('./partials/footer') %>
