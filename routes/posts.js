@@ -43,9 +43,36 @@ router.post('/upload' , async function(req,res,next) {
       }
 })
 
-router.post("/vote/:post._id/:option._id" , async  (req,res,next) => {
-  
-})
+router.post("/vote/:postid/:optionid", async (req, res, next) => {
+  try {
+      const post = await Post.findById(req.params.postid);
+      if (!post) {
+          console.log("Post not found");
+          return res.status(404).send("Post not found");
+      }
+
+      let voted = false;
+      post.options.forEach(option => {
+          if (option._id.toString() === req.params.optionid) {
+              console.log("Voting on option");
+              option.votes += 1;
+              option.voters.push(req.user._id);
+              voted = true;
+          }
+      });
+
+      if (!voted) {
+          console.log("Option not found");
+          return res.status(404).send("Option not found");
+      }
+
+      await post.save();
+      res.redirect('/home');
+  } catch (err) {
+      console.error("Error processing the vote", err);
+      res.status(500).send("An error occurred while processing your vote.");
+  }
+});
 
 
 module.exports = router;

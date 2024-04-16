@@ -14,14 +14,29 @@
                         <h2><%= post.question %></h2>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <% post.options.forEach(function(option) { %>
-                            <li class="list-group-item">
-                                <form action="posts/vote/<%= post._id %>/<%= option._id %>" method="POST">
-                                    <%= option.optionText %>
-                                    <button type="submit" class="btn btn-primary btn-sm float-right">Vote</button>
-                                </form>
-                            </li>
-                        <% }); %>
+                        <% 
+                        // Determine if the logged-in user has voted on this poll
+                        let userHasVoted = post.options.some(option => option.voters.includes(loggedInUser._id));
+
+                        if (userHasVoted) {
+                            // Show voting results
+                            post.options.forEach(function(option) { %>
+                                <li class="list-group-item">
+                                    <%= option.optionText %> - Votes: <%= option.votes %>
+                                </li>
+                            <% });
+                        } else {
+                            // Show voting options
+                            post.options.forEach(function(option) { %>
+                                <li class="list-group-item">
+                                    <form action="/posts/vote/<%= post._id %>/<%= option._id %>" method="POST">
+                                        <%= option.optionText %>
+                                        <button type="submit" class="btn btn-primary btn-sm float-right">Vote</button>
+                                    </form>
+                                </li>
+                            <% });
+                        }
+                        %>
                     </ul>
                 </div>
             <% }); %>
@@ -31,6 +46,7 @@
         <% } %>
     </div>
 </div>
+
 
 
 <%- include('./partials/footer') %>
