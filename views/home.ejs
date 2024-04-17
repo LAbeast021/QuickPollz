@@ -1,7 +1,47 @@
 <%- include('./partials/header') %>
 <style>
-    h2 {
-        color: #000000;
+    .polls-container .card {
+        margin-top: 20px;
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+    }
+
+    .card-header {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .progress {
+        height: 25px;
+        background-color: #e9ecef;
+    }
+
+    .progress-bar {
+        background-color: #6c757d; /* Dark gray */
+        color: white; /* Text color */
+        font-weight: bold;
+    }
+
+    .list-group-item {
+        background-color: #ffffff; /* Bright background for list items */
+        border: 1px solid #dee2e6; /* Slight border for definition */
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Ensures space between elements */
+    }
+
+    .option-text {
+        flex: 1; /* Allows text to take up the rest of the space */
+    }
+
+    .vote-info {
+        flex-basis: 100px; /* Fixed space for votes */
+        text-align: right; /* Aligns vote info to the right */
+        margin-right: 10px; /* Adds a margin between vote info and progress bar */
+    }
+
+    .progress-container {
+        flex-grow: 1; /* Allows progress bar to grow */
     }
 </style>
 <div class="container mt-4">
@@ -9,24 +49,28 @@
     <div class="polls-container">
         <% if (posts.length > 0) { %>
             <% posts.forEach(function(post) { %>
-                <div class="card my-3">
+                <div class="card">
                     <div class="card-header">
                         <h2><%= post.question %></h2>
                     </div>
                     <ul class="list-group list-group-flush">
                         <% 
-                        // Determine if the logged-in user has voted on this poll
+                        let totalVotes = post.options.reduce((sum, option) => sum + option.votes, 0);
                         let userHasVoted = post.options.some(option => option.voters.includes(loggedInUser._id));
-
                         if (userHasVoted) {
-                            // Show voting results
-                            post.options.forEach(function(option) { %>
+                            post.options.forEach(function(option) { 
+                                let percentage = totalVotes > 0 ? (option.votes / totalVotes * 100).toFixed(2) : 0; %>
                                 <li class="list-group-item">
-                                    <%= option.optionText %> - Votes: <%= option.votes %>
+                                    <div class="option-text"><%= option.optionText %></div>
+                                    <div class="vote-info"><%= option.votes %> votes</div>
+                                    <div class="progress-container">
+                                        <div class="progress w-100">
+                                            <div class="progress-bar" role="progressbar" style="width: <%= percentage %>%;" aria-valuenow="<%= percentage %>" aria-valuemin="0" aria-valuemax="100"><%= percentage %>%</div>
+                                        </div>
+                                    </div>
                                 </li>
                             <% });
                         } else {
-                            // Show voting options
                             post.options.forEach(function(option) { %>
                                 <li class="list-group-item">
                                     <form action="/posts/vote/<%= post._id %>/<%= option._id %>" method="POST">
@@ -41,12 +85,10 @@
                 </div>
             <% }); %>
         <% } else { %>
-            <div style="background-color: #696767;color: aliceblue;" class="alert alert-info">You have no polls to participate in. Why not create one?</div>
-            <a style="color: #000000; background-color: aliceblue;" class="btn btn-success" href="/posts/new">Create a Poll</a>
+            <div class="alert alert-info" style="background-color: #696767; color: aliceblue;">You have no polls to participate in. Why not create one?</div>
+            <a class="btn btn-success" style="color: #000000; background-color: aliceblue;" href="/posts/new">Create a Poll</a>
         <% } %>
     </div>
 </div>
-
-
 
 <%- include('./partials/footer') %>
