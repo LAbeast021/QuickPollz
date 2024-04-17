@@ -74,13 +74,13 @@
 <body>
     <nav>
         <div style="border-left: 2px solid rgb(185, 185, 185);">
-          <a href="/users/profile/<%= loggedInUser._id %>"> PROFILE </a>
+          <a id="profileButton" href="/users/profile/<%= loggedInUser._id %>"> PROFILE </a>
         </div>
         <div>
-            <a href="/home"> HOME </a>
+            <a id="homeButton" href="/home"> HOME </a>
         </div>
         <div>
-            <a href="/posts/new">NEW</a>
+            <a id="newButton" href="/posts/new">NEW</a>
         </div>
         <!-- <div>
             <a href="/search">Search</a>

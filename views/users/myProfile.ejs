@@ -5,6 +5,9 @@
     /* height: 100vh; */
     /* border: 1px solid white; */
   }
+  .card{
+    width: 100%;
+  }
   .wrapper {
     width: 100%;
     padding: 0 2rem;
@@ -69,6 +72,58 @@
       flex-direction: column;
       justify-content: space-around;
       align-items: center;
+      width: 80%;
+    }
+    .container {
+        padding-top: 50px;
+        width: 70%;
+    }
+
+    .list-group-item {
+        background-color: #ffffff; /* Bright white background for list items */
+        border: 1px solid #ccc; /* Light grey border */
+        margin-bottom: 10px; /* Space between items */
+    }
+
+    .option-text {
+        color: #343a40; /* Nearly black text color */
+        font-size: 18px; /* Larger font size for readability */
+    }
+
+    .vote-info {
+        color: #666; /* Medium grey for less emphasis */
+        font-weight: bold; /* Bold font weight for emphasis */
+    }
+
+    .progress {
+        background-color: #e9ecef; /* Very light grey for progress bar background */
+        border-radius: 0.25rem;
+    }
+
+    .progress-bar {
+        background-color: #343a40; /* Dark grey for progress bar fill */
+        color: #ffffff; /* White text inside the progress bar */
+        font-weight: bold; /* Bold font for text inside the progress bar */
+    }
+
+    .card {
+        background-color: #ffffff; /* Bright white for cards */
+        border: none; /* No borders for a cleaner look */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for 3D effect */
+    }
+
+    .card-header {
+        background-color: #343a40; /* Dark header for contrast */
+        color: #ffffff; /* White text for contrast */
+        font-size: 24px; /* Larger font size for header */
+    }
+
+    h1 {
+        color: #343a40; /* Dark color for main heading */
+    }
+    #profileButton{
+      color: #fff;
+      text-decoration: line-through;
     }
 </style>
 <div class="myProfile">
@@ -87,18 +142,36 @@
 
 </div>
 
-<div id="allPostsHolder">
-  <% if (posts.length != 0 ) {%>
-    <% posts.forEach ( (post, postIdx) => {%>
-      <div>
-        <h3><%= post.question %></h3>
-      </div>
-    <% });%>  
+<div class="container">
+  <div id="allPostsHolder">
+      <% if (posts.length > 0) { %>
+          <% posts.forEach(function(post) { %>
+              <div class="card">
+                  <div class="card-header">
+                      <%= post.question %>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                      <% 
+                      let totalVotes = post.options.reduce((sum, option) => sum + option.votes, 0);
+                      post.options.forEach(function(option) { 
+                          let percentage = totalVotes > 0 ? (option.votes / totalVotes * 100).toFixed(2) : 0; %>
+                          <li class="list-group-item">
+                              <div class="option-text"><%= option.optionText %></div>
+                              <div class="vote-info"><%= option.votes %> votes</div>
+                              <div class="progress-container">
+                                  <div class="progress w-100">
+                                      <div class="progress-bar" role="progressbar" style="width: <%= percentage %>%;" aria-valuenow="<%= percentage %>" aria-valuemin="0" aria-valuemax="100"><%= percentage %>%</div>
+                                  </div>
+                              </div>
+                          </li>
+                      <% }); %>
+                  </ul>
+              </div>
+          <% }); %>
+      <% } else { %>
+          <h1>YOU HAVE NO POLLS YET :(</h1>
+          <a style="font-size: larger;" href="/posts/new">Create a Poll now? ;)</a>
+      <% } %>
   </div>
-  <% } else {%>
-    <h1> YOU HAVE NO POLLZ YET :( </h1>
-    <a style="font-size: larger;" href="/posts/new"> Create a Poll now ? ;) </a>
-  <% }%>
-
 </div>
 <%- include('../partials/footer') %>
