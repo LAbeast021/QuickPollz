@@ -7,6 +7,7 @@ var logger = require('morgan');
 var methodOverRide = require('method-override');
 var session = require('express-session');
 var passport = require('passport');
+var MongoStore = require('connect-mongo'); // Add this line
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -34,11 +35,25 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('upload'))
 // using method over ride for delete and put requests /////////
 app.use(methodOverRide('_method'));
+
+
+// app.use(session({
+//   secret: 'NOVA',
+//   resave: false,
+//   saveUninitialized: true
+// }));
 app.use(session({
-  secret: 'NOVA',
+  secret: process.env.SESSION_SECRET || 'QUICKPollz', // It's better to keep this in an environment variable
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.DATABASE_URL, // Use DATABASE_URL from your environment variables
+    collectionName: 'sessions' // Optional: specify the collection name for storing sessions
+  })
 }));
+
+
+
 //Initialize passport
 //Be sure to mount it after the session middleware and always before any of your routes are mounted that would need access to the current user:
 app.use(passport.initialize());
