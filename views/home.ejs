@@ -3,28 +3,31 @@
     .polls-container .card {
         margin-top: 20px;
         background-color: #f8f9fa;
-        border-color: #dee2e6;
+        border: 2px solid white;
     }
 
     .card-header {
-        background-color: #343a40;
+        background-color: #424446;
         color: white;
     }
 
     .progress {
         height: 25px;
-        background-color: #e9ecef;
+        background-color: #d3d3d3;
+        border-radius: 20px;
     }
 
     .progress-bar {
-        background-color: #6c757d; /* Dark gray */
+        background-color: #595959; /* Dark gray */
         color: white; /* Text color */
         font-weight: bold;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
     }
 
     .list-group-item {
-        background-color: #ffffff; /* Bright background for list items */
-        border: 1px solid #dee2e6; /* Slight border for definition */
+        background-color: #e4e3e365; /* Bright background for list items */
+        border: 1px solid #38494d; /* Slight border for definition */
         display: flex;
         align-items: center;
         justify-content: space-between; /* Ensures space between elements */
@@ -64,7 +67,7 @@
             <% posts.forEach(function(post) { %>
                 <div class="card">
                     <div class="card-header">
-                        <h2><%= post.question %></h2>
+                        <h3 style="font-family: 'Times New Roman', Times, serif;"><%= post.question %></h3>
                     </div>
                     <ul class="list-group list-group-flush">
                         <% 
@@ -74,7 +77,7 @@
                             post.options.forEach(function(option) { 
                                 let percentage = totalVotes > 0 ? (option.votes / totalVotes * 100).toFixed(2) : 0; %>
                                 <li class="list-group-item">
-                                    <div class="option-text"><%= option.optionText %></div>
+                                    <div style="font-weight: bold;" class="option-text"><%= option.optionText %></div>
                                     <div class="vote-info"><%= option.votes %> votes</div>
                                     <div class="progress-container">
                                         <div class="progress w-100">

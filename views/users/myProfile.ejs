@@ -88,6 +88,7 @@
     .option-text {
         color: #343a40; /* Nearly black text color */
         font-size: 18px; /* Larger font size for readability */
+        
     }
 
     .vote-info {
@@ -96,14 +97,16 @@
     }
 
     .progress {
-        background-color: #e9ecef; /* Very light grey for progress bar background */
+        background-color: #cfcfcf; /* Very light grey for progress bar background */
         border-radius: 0.25rem;
     }
 
     .progress-bar {
-        background-color: #343a40; /* Dark grey for progress bar fill */
+        background-color: #434343; /* Dark grey for progress bar fill */
         color: #ffffff; /* White text inside the progress bar */
         font-weight: bold; /* Bold font for text inside the progress bar */
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
     }
 
     .card {
@@ -147,7 +150,7 @@
       <% if (posts.length > 0) { %>
           <% posts.forEach(function(post) { %>
               <div class="card">
-                  <div class="card-header">
+                  <div style="font-family: 'Times New Roman', Times, serif;" class="card-header">
                       <%= post.question %>
                   </div>
                   <ul class="list-group list-group-flush">
